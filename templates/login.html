@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/img/icon.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/password.js"></script>
+    <header>
+        {% include 'header.html' %}
+    </header>
+    <div id="outer">
+        <div id="inner">
+            <h1>Вход</h1>
+           <form method="post">
+            <div class="div_input"><img src="/static/img/user.png" class="icon-login"><input type="text" placeholder="Ваш Логин" class="input" name="login" id="login" title="Логин"></div><br><br>
+            <div class="div_input"><img src="/static/img/password.png" class="icon-login"><input type="password" placeholder="Ваш Пароль" class="input" id="password" name="password" title="Пароль"></div><br><br>
+            <label class="lbl"><input type="checkbox" class="check">Показать пароль</label><br><br>
+            <button type="submit" class="btn-login" title="Войти">ВОЙТИ</button><br><br>
+            <label><a title="Создать Аккаунт" href="/register" class="lnks">Ещё нет аккаунта?</a> <a title="Выйти" href="/logout" class="lnks">Выйти</a></label>
+           </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+body{
+    background: url(/static/img/bg1.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+header{
+    width: 90%;
+    height: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: 1px solid white;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+}
+.link_header{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    margin-right: 50px;
+    margin-left: 50px;
+    transition: all 0.25s;
+}
+.link_header:hover{
+    color: rgb(220, 220, 220)
+}
+.filetrash_header{
+    color: white;
+    font-size: 20px;
+    margin-right: 50px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.icon-header{
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+.file{
+    display: inline-block;
+    text-align: center;
+    width: 20%;
+    height: 15%;
+    margin-right:2.1%;
+    margin-left: 2.1%;
+    margin-bottom: 10px;
+    cursor: pointer;
+    position: relative;
+}
+.dir_image{
+    width: 80%;
+    height: 80%;
+    transition: all 0.25s;
+}
+.dir_image:hover{
+    transform: scale(1.2);
+}
+.file_image{
+    width: 80%;
+    height: 85%;
+    transition: all 0.25s;
+}
+.file_image:hover{
+    transform: scale(1.2);
+}
+.file h4{
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+}
+.dir{
+    width: 90%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.add_folder{
+    float: left;
+}
+.upload_file{
+    float: right;
+}
+.add_folder input, .upload_file input{
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    border: 1px solid white;
+    color: white;
+    border-radius: 2px;
+}
+.add_folder button, .upload_file button{
+    background-color: rgba(0, 0, 0, 0.2);
+    border: none;
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s all;
+}
+.add_folder button:hover, .upload_file button:hover{
+    background-color: rgba(255, 255, 255, 0.5);
+}
+::placeholder{
+    color: white;
+    font-weight: bold;
+}
+.icon-back{
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    margin-top: 50px;
+    transition: all 0.25s ease-in;
+    border-radius: 20px;
+}
+.icon-back:hover{
+    transform: scale(1.5);
+}
+.icon-back_disable{
+    width: 50px;
+    height: 50px;
+    cursor: not-allowed;
+    margin-top: 50px;
+    transition: all 0.25s ease-in;
+    border-radius: 20px;
+}
+.icon_down_div{
+    width: 20px;
+    height: 20px;
+}
+.icon_down{
+    width: 20px;
+    height: 20px;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: black;
+}
+::-webkit-scrollbar-thumb {
+  background: red;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: darkred;
+}
+.context-menu-open, .context-menu-open1 {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.54);
+    background-color: white;
+    border-radius: 4px;
+    padding: 4px;
+}
+.context-menu-open ul, .context-menu-open1 ul {
+    padding: 0;
+    margin: 0;
+}
+.context-menu-open ul li, .context-menu-open1 ul li {
+    cursor: pointer;
+    list-style: none;
+    padding: 10px 12px;
+    margin: 0;
+    border-bottom: 1px solid #BFE2FF;
+}
+.context-menu-open ul li:last-child, .context-menu-open1 ul li:last-child{
+    border-bottom: 1px solid transparent;
+}
+.context-menu-open ul li:hover , .context-menu-open1 ul li:hover{
+    background-color: #BFE2FF;
+}
+.context_menu_img{
+    width: 20px;
+    height: 20px;
+}
+.context_menu_a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}

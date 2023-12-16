@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/img/icon.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Filё Tr@$h</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/redirects.js"></script>
+    <header>
+        {% include 'header.html' %}
+    </header>
+    <div class="dir">
+        <div class="add_folder">
+            <form action="/add_folder?folder={{current}}" method="post">
+                <input type="text" placeholder="Имя папки" name="foldername">
+                <button>ДОБАВИТЬ</button>
+            </form>
+        </div>
+        <div class="upload_file">
+            <form action="/upload_file?folder={{current}}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <button>ДОБАВИТЬ</button>
+            </form>
+        </div>
+    </div><br>
+    {% if current != '' %}
+    <div class="dir">
+        <img src="/static/img/back.png" class="icon-back" alt="" onclick="red('/back?folder={{current}}')">
+    </div>
+    {% else %}
+    <div class="dir">
+        <img src="/static/img/back.png" class="icon-back_disable" alt="">
+    </div>
+    {% endif %}
+    <div class="dir">
+    {% for i in files %}
+        <div style="display: inline; ">
+            {% for file in i %}
+                <div class="file" title="{{file['name']}}">
+                    {% if file['isfile'] %}
+                        <img src="/static/img/file.png" file-path="{{file.path}}" class="context-menu file_image">
+                    {% else %}
+                        <img src="/static/img/folder.png" file-path="{{file.path}}" class="context-menu1 dir_image" onclick="red('/?folder={{file.path}}')">
+                    {% endif %}
+                    <h4>{{file['name']}}</h4>
+                    <div class="context-menu-open">
+                        <ul>
+                            <a href="" class="context_menu_a"><li><img class="context_menu_img" src="/static/img/trash.png" alt="">Удалить</li></a>
+                            <a href="" class="context_menu_a"><li><img class="context_menu_img" src="/static/img/download.png" alt="">Скачать</li></a>
+                        </ul>
+                    </div>
+                    <div class="context-menu-open1">
+                        <ul>
+                            <a href="" class="context_menu_a"><li><img class="context_menu_img" src="/static/img/trash.png" alt="">Удалить</li></a>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+    <script type="text/javascript" src="/static/js/custom_menu.js"></script>
+</body>
+</html>
