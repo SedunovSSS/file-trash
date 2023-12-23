@@ -28,23 +28,27 @@
         </div>
     </div><br>
     {% if current != '' %}
-    <div class="dir">
-        <img src="/static/img/back.png" class="icon-back" alt="" onclick="red('/back?folder={{current}}')">
-    </div>
+        <div class="dir">
+            <img src="/static/img/back.png" class="icon-back" alt="" onclick="red('/back?folder={{current}}')">
+        </div>
     {% else %}
-    <div class="dir">
-        <img src="/static/img/back.png" class="icon-back_disable" alt="">
-    </div>
+        <div class="dir">
+            <img src="/static/img/back.png" class="icon-back_disable" alt="">
+        </div>
     {% endif %}
     <div class="dir">
     {% for i in files %}
         <div style="display: inline; ">
             {% for file in i %}
-                <div class="file" title="{{file['name']}}">
+                <div class="file" title="{{file['fullname']}}">
                     {% if file['isfile'] %}
-                        <img src="/static/img/file.png" file-path="{{file.path}}" class="context-menu file_image">
+                        {% if file['open'] == True %}
+                            <img src="{{file['icon']}}" file-path="{{file.path}}" class="context-menu file_image" onclick="red_new_tab('/open?object={{file.path}}')">
+                        {% else %}
+                            <img src="{{file['icon']}}" file-path="{{file.path}}" class="context-menu file_image">
+                        {% endif %}
                     {% else %}
-                        <img src="/static/img/folder.png" file-path="{{file.path}}" class="context-menu1 dir_image" onclick="red('/?folder={{file.path}}')">
+                        <img src="{{file['icon']}}" file-path="{{file.path}}" class="context-menu1 dir_image" onclick="red('/?folder={{file.path}}')">
                     {% endif %}
                     <h4>{{file['name']}}</h4>
                     <div class="context-menu-open">

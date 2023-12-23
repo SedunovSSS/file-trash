@@ -12,6 +12,49 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 app.config['UPLOAD_FOLDER'] = 'static/user_trashes'
 db = SQLAlchemy(app)
 
+img = ['png', 'jpg', 'jpeg', 'gif', 'jfif', 'bmp', 'ico', 'webp', 'psd']
+vid = ['mp4', 'mov', 'avi', 'wmv', 'avchd', 'webm', 'mkv', 'flv', 'f4v', 'swf', 'mpeg-2']
+aud = ['mp3', 'm4a', 'ogg', 'wav', 'wma', 'mid', 'midi', 'aiff', 'au']
+doc = ['doc', 'docx', 'rtf', 'dot', 'dotx']
+ppt = ['ppt', 'pptx', 'pptm', 'xps', 'potx', 'potm', 'pot']
+xls = ['xls', 'xlsx', 'csv']
+htm = ['htm', 'html', 'xhtml']
+
+accepted_2_open_types = ['text', 'html', 'image', 'audio', 'video', 'pdf']
+
+
+def get_file_name_and_exp(name):
+    for i in range(len(name)-1, -1, -1):
+        if name[i] == '.':
+            return name[:i], name[i+1:]
+    return name, ''
+
+
+def get_file_type_and_icon(exp):
+    exp = exp.lower()
+    if exp in img:
+        return 'image', '/static/img/img.png'
+    if exp in aud:
+        return 'audio', '/static/img/audio.png'
+    if exp in vid:
+        return 'video', '/static/img/video.png'
+    if exp in doc:
+        return 'document', '/static/img/doc.png'
+    if exp in 'ppt':
+        return 'presentation', '/static/img/ppt.png'
+    if exp in xls:
+        return 'excel', '/static/img/xlsx.png'
+    if exp in htm:
+        return 'html', '/static/img/html.png'
+    if exp == 'txt':
+        return 'text', '/static/img/text.png'
+    if exp == 'exe':
+        return 'exe', '/static/img/exe-file.png'
+    if exp == 'pdf':
+        return 'pdf', '/static/img/pdf.png'
+    return 'file', '/static/img/file.png'
+
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(150), nullable=False, unique=True)
@@ -34,11 +77,18 @@ def index():
     files = []
     for i in os.listdir(directory+'/'+current):
         if os.path.isfile(directory+'/'+current+'/'+i):
-            fname, exp = i.split('.')
-            short_name = fname[:12] + '...' + fname[-3:] + '.' + exp  if len(fname) > 15 else fname + '.' + exp
+            if '.' in i:
+                fname, exp = get_file_name_and_exp(i)
+                short_name = fname[:12] + '...' + fname[-3:] + '.' + exp  if len(fname) > 15 else fname + '.' + exp
+                file_type, icon_apth = get_file_type_and_icon(exp)
+            else:
+                file_type, icon_apth = 'file', '/static/img/file.png'
+                short_name = i[:12] + '...' if len(i) > 15 else i
         else:
+            file_type, icon_apth = 'folder', '/static/img/folder.png'
             short_name = i[:12] + '...' if len(i) > 15 else i
-        files.append({'name': short_name, 'fullname': i, 'isfile': os.path.isfile(directory+'/'+current+'/'+i), 'path': current+'/'+i})
+        files.append({'name': short_name, 'fullname': i, 'isfile': os.path.isfile(directory+'/'+current+'/'+i), 'path': current+'/'+i, 'icon': icon_apth, \
+                      'type': file_type, 'open': file_type in accepted_2_open_types})
     files = [files[i:i+4] for i in range(0, len(files), 4)]
     return render_template('index.html', files=files, current=current)
 
@@ -59,7 +109,7 @@ def register():
             resp = make_response(redirect("/"))
             resp.set_cookie('user', user.login)
             return resp
-        except Exception as ex:
+        except:
             return redirect("/register")
     else:
         return render_template('register.html')
@@ -119,12 +169,18 @@ def upload_file():
     file = request.files['file']
     try:
         filename = file.filename
-        fname, exp = filename.split('.')
-        i = 1
-        while filename in os.listdir(f'static/user_trashes/{name}/{current}'):
-            filename = f'{fname} ({i}).{exp}'
-            i += 1     
-        print(filename)
+        if '.' in filename:
+            fname, exp = get_file_name_and_exp(filename)
+            i = 1
+            while filename in os.listdir(f'static/user_trashes/{name}/{current}'):
+                filename = f'{fname} ({i}).{exp}'
+                i += 1     
+        else:
+            fname = filename
+            i = 1
+            while filename in os.listdir(f'static/user_trashes/{name}/{current}'):
+                filename = f'{fname} ({i})'
+                i += 1
         file.save(f'static/user_trashes/{name}/{current}/{filename}')
     except:
         pass
@@ -166,8 +222,21 @@ def download():
     object = f'static/user_trashes/{name}{current}'
     try:
         return send_file(object, as_attachment=True)
-    except Exception as ex:
-        print(ex)
+    except:
+        _dir = current.split('/')
+        _dir = _dir[:-1]
+        return redirect('/?folder='+'/'.join(_dir) if _dir != [''] else '/')
+
+@app.route('/open')
+def open_file():
+    name = request.cookies.get('user')
+    if name is None:
+        return redirect('/login')
+    current = request.args.get('object')
+    object = f'static/user_trashes/{name}{current}'
+    try:
+        return send_file(object)
+    except:
         _dir = current.split('/')
         _dir = _dir[:-1]
         return redirect('/?folder='+'/'.join(_dir) if _dir != [''] else '/')
