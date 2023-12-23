@@ -62,6 +62,14 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<Users %r>' % self.id
+    
+@app.errorhandler(404)
+def _404(e):
+    return render_template('404.html')
+
+@app.errorhandler(500)
+def _500(e):
+    return render_template('500.html')
 
 @app.route('/')
 def index():

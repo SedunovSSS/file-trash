@@ -1,0 +1,25 @@
+.error_box{
+    width: 1000px;
+    height: 500px;
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+}
+.error_box h1.error_msg{
+    margin-top: 150px;
+    color: red;
+}
+.error_box a{
+    text-decoration: none;
+    color: red;
+    transition: all 0.5s;
+}
+.error_box a:hover{
+    color: rgb(255, 0, 242);
+}
